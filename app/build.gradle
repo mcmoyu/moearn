@@ -1,0 +1,78 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "com.moyu.moearn"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        multiDexEnabled true
+    }
+
+    // 激励视频SDK 添加aar依赖需要定义的lib目录
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+//            setMultiDexKeepFile('multidex-config.txt')
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // 激励视频SDK 添加依赖
+    api 'com.android.support:multidex:1.0.3'
+    api 'com.android.support:multidex-instrumentation:1.0.3'
+    //noinspection GradleCompatible
+    api 'com.android.support:support-v4:24.+'
+    configurations.all {
+        resolutionStrategy {
+            eachDependency { details ->
+                // Force all of the primary support libraries to use the same version.
+                if (details.requested.group == 'com.android.support') {
+                    if (!requested.name.startsWith("multidex")) {
+                        details.useVersion '24.+'
+                    }
+                }
+            }
+        }
+    }
+
+    implementation(name: 'TGSDK.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADBaidu.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADBytedance.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADGuangdiantong.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADMobvista.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADOneway.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADShenqiad.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADSigmob.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADUniplay.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADWangmai.1.8.6', ext: 'aar')
+    implementation(name: 'TGSDKADYoads.1.8.6', ext: 'aar')
+    implementation files('libs/gson-2.6.jar')
+    implementation files('libs/OkDownload.jar')
+    implementation files('libs/OkDownload-okhttp.jar')
+    implementation files('libs/OkDownload-sqlite.jar')
+    implementation files('libs/okhttp-3.11.0.jar')
+    implementation files('libs/okio-1.14.0.jar')
+    implementation files('libs/picasso-2.5.2.jar')
+    implementation(name: 'android-gif-drawable-1.2.6', ext: 'aar')
+    implementation(name: 'open_ad_sdk.2.5.2.6', ext: 'aar')
+}
